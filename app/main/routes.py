@@ -101,7 +101,6 @@ def transfer(current_user):
     }
     return jsonify(response), 200
 
-
 # @main.route('/protected')
 # @login_required
 # def protected():

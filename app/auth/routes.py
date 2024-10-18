@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_login import login_user, logout_user, login_required
 
 from . import auth
-from .. import db
+from app import db, cache
 from app.models.user import User
 from app.models.wallet import Wallet
 from utils.jwt_utils import generate_token
@@ -62,6 +62,7 @@ def register():
         return jsonify({'error': str(e)}), 400
 
 @auth.route('/login', methods=['POST'])
+@cache.cached(timeout=900, key_prefix='user_profile_{user_id}')
 def login():
     data = request.get_json()
     email = data.get('email')
